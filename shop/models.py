@@ -64,6 +64,28 @@ class ColorModel(BaseModel):
         verbose_name_plural = "Colors"        
 
 
+class ProductModel(BaseModel):
+    title = models.CharField(max_length=60, verbose_name=_("title"))
+    short_description = models.CharField(max_length=255, verbose_name=_("short description"))
+    long_description = RichTextUploadingField(verbose_name=_("long description"))
+    price = models.FloatField(verbose_name=_("price"))
+    real_price = models.FloatField(verbose_name=_("real price"), default=0)
+    sale = models.BooleanField(verbose_name=_("sale"), default=False)
+    discount = models.PositiveSmallIntegerField(verbose_name=_("discount"), default=0)
+    main_image = models.ImageField(upload_to="media/shop_product/%Y/%m/%d", verbose_name=_("main image"))
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name="products",
+        verbose_name=_("category")
+    )
+    tags = models.ManyToManyField(
+        ProductTag,
+        related_name="products",
+        verbose_name=_("tags"),
+    )
+
+
 
 
 
